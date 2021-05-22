@@ -1,0 +1,27 @@
+server:
+  port: 8090
+  error:
+    include-message: always
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /console
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    username: jiyu
+    password: 1234
+    initialization-mode: always
+    platform: h2
+
+
+# mybatis 설정
+mybatis:
+  type-aliases-package: com.example.kakaopay2105
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 30
+  mapper-locations: classpath:mapper/**/*.xml

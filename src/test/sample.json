@@ -1,0 +1,29 @@
+{
+{
+  "year": 2018,
+"name”: ”계좌명”,
+"acctNo”: ”계좌번호”,
+"sumAmt”: 0000
+},
+{
+"year”:2019,
+"name”: ”계좌명”,
+"acctNo”: ”계좌번호”,
+"sumAmt”: 0000
+}
+}
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "host": "",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+
+  }
+}

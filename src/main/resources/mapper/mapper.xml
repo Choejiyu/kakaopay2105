@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.kakaopay2105.web.mapper.ComMapper">
+
+    <insert id="insertTrade" parameterType="trade">
+        INSERT INTO TRADE
+        (
+            TRD_DT,
+            ACCT_NO,
+            TRD_NO,
+            AMT,
+            FEES,
+            CANCEL
+        )
+        VALUES
+        (
+            #{trdDt},
+            #{acctNo},
+            #{trdNo},
+            #{amt},
+            #{fees},
+            #{cancel}
+        )
+    </insert>
+
+    <insert id="insertBranch" parameterType="branch">
+        INSERT INTO BRANCH
+        (
+            BRANCH_CD,
+            BRANCH_NM
+        )
+        VALUES
+        (
+            #{branchCd},
+            #{branchNm}
+        )
+    </insert>
+
+    <insert id="insertBank" parameterType="bank">
+        INSERT INTO BANK
+        (
+            ACCT_NO,
+            ACCT_NM,
+            BRANCH_CD
+        )
+        VALUES
+        (
+            #{acctNo},
+            #{acctNm},
+            #{branchCd}
+
+        )
+    </insert>
+
+    <select id="result01"  resultType="map">
+        SELECT ACCT_NO, ACCT_NM, SUM_AMT, YEAR
+        FROM
+            (
+                SELECT ACCT_NO
+                     , ACCT_NM
+                     , SUM_AMT
+                     , YEAR
+                     , ROW_NUMBER() OVER(PARTITION BY YEAR ORDER BY SUM_AMT DESC) AS SEQ
+                FROM
+                    (
+                        SELECT A.ACCT_NO
+                             , A.ACCT_NM
+                             , SUM(B.AMT- B.FEES) AS SUM_AMT
+                             , SUBSTR(B.TRD_DT, 1, 4) AS YEAR
+                        FROM BANK A
+                           , TRADE B
+                        WHERE 1=1
+                          AND A.ACCT_NO = B.ACCT_NO
+                          AND B.CANCEL = 'N'
+                        GROUP BY A.ACCT_NO
+                               ,SUBSTR(B.TRD_DT, 1, 4)
+                    )V1
+                WHERE 1=1
+                  AND V1.YEAR in (2018,2019)
+                GROUP BY SUM_AMT, YEAR
+            ) V2
+        WHERE SEQ = 1
+    </select>
+
+    <select id="result02"  resultType="map">
+        SELECT ACCT_NO , ACCT_NM, SUM_AMT, YEAR
+        FROM
+            (
+                SELECT A.ACCT_NO
+                     ,B.ACCT_NO  AS CACCT_NO
+                     , A.ACCT_NM
+                     , NVL(SUM(B.AMT- B.FEES),0) AS SUM_AMT
+                     ,'2019' AS YEAR
+                FROM BANK A
+                         LEFT JOIN TRADE B
+                                   ON A.ACCT_NO = B.ACCT_NO
+                                       AND B.CANCEL = 'N'
+                                       AND SUBSTR(B.TRD_DT, 1, 4) = '2019'
+                GROUP BY A.ACCT_NO,SUBSTR(B.TRD_DT, 1, 4)
+                UNION ALL
+                SELECT A.ACCT_NO
+                     ,B.ACCT_NO  AS CACCT_NO
+                     , A.ACCT_NM
+                     , NVL(SUM(B.AMT- B.FEES),0) AS SUM_AMT
+                     , '2018' AS YEAR
+                FROM BANK A
+                         LEFT JOIN TRADE B
+                                   ON A.ACCT_NO = B.ACCT_NO
+                                       AND B.CANCEL = 'FALSE'
+                                       AND SUBSTR(B.TRD_DT, 1, 4) = '2018'
+                GROUP BY A.ACCT_NO,SUBSTR(B.TRD_DT, 1, 4)
+            ) V1
+        WHERE 1=1
+          AND V1.SUM_AMT = '0'
+
+    </select>
+
+    <select id="result03" parameterType="String" resultType="map">
+        select  v2.branch_nm
+             , v2.branch_Cd
+             , v2.amt
+        from
+            (
+                select v1.year, v1.branch_Cd , a.branch_nm , sum(v1.SUM_AMT) as amt from
+                    (
+                        SELECT A.ACCT_NO
+                             , A.ACCT_NM
+                             , SUM(B.AMT- B.FEES) AS SUM_AMT
+                             , SUBSTR(B.TRD_DT, 1, 4) AS YEAR
+                             , a.branch_Cd
+                        FROM BANK A
+                           , TRADE B
+                        WHERE 1=1
+                          AND A.ACCT_NO = B.ACCT_NO
+                          AND B.CANCEL = 'N'
+                        GROUP BY A.ACCT_NO
+                               ,SUBSTR(B.TRD_DT, 1, 4)
+
+                    )v1
+                                                                                       , branch a
+                where 1=1
+                  and v1.YEAR =  #{year}
+                  and v1.branch_Cd = a.branch_Cd
+                group by  v1.branch_Cd, v1.year
+            ) v2
+        order by v2.amt desc
+
+    </select>
+
+
+    <select id="result04"  parameterType="String" resultType="map">
+        select  a.branch_cd
+             ,b.branch_nm
+             ,sum(amt) as sum_amt
+        from bank a
+           , branch b
+           , trade c
+        where 1=1
+          and a.acct_no = c.acct_no
+          and a.branch_cd = b.branch_cd
+          and c.cancel = 'true'
+         <choose>
+            <when test='branchCd=="A"'>
+                and a.branch_cd in ('A','B')
+            </when>
+
+            <otherwise>
+                and a.branch_cd = #{branchCd}
+            </otherwise>
+         </choose>
+        group by a.branch_cd
+
+
+    </select>
+
+
+</mapper>
