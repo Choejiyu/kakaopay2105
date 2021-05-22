@@ -6,9 +6,10 @@
 개요
 
 * [프레임워크](#프레임워크)
+* [요구사항 및 문제해결 전략](#요구사항-및-문제해결-전략)
 * [테스트페이지 주소](#테스트-페이지-주소)
 * [API Specifications](#API-Specifications)
-* [요구사항 및 문제해결 전략](#요구사항-및-문제해결-전략)
+
 
 ---
 
@@ -25,6 +26,18 @@
 >> Maven
 
 >> In memory DB  H2 
+
+---
+
+## 요구사항 및 문제해결 전략
+  * H2 데이터 베이스 사용하요 간단한 프로젝트를 위한 DB환경 구축 
+  * 거래내역, 은행, 고객 csv 데이터 앱 기동과 동시에 create table / insert 완료 
+  * 각 api 에 필요한 ENTITY 생성 
+  * Lombok 라이브러리를 이용해 별도로 getter, setter 작성 필요하지않아 개발 용이함
+  * view 단에 버튼 만들어 api  눈에 보이게 명시함.
+  * UNIT TEST 
+    * BaseController 는 Junit Tewt 선택 
+    * MainController 는 MockMvc Test 선택
 
 ---
 
