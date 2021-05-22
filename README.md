@@ -34,6 +34,8 @@
 
 >> In memory DB  H2 
 
+>> intelliJ
+
 ---
 
 ## 요구사항 및 문제해결 전략
