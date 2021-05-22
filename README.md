@@ -6,9 +6,9 @@
 개요
 
 * [프레임워크](#프레임워크)
-* [테스트페이지 주소](#테스트페이지주소)
-* [API Specifications](#APISpecifications)
-* [요구 사항 및 문제해결 전략](#요구사항및 문제해결 전략)
+* [테스트페이지 주소](#테스트 페이지 주소)
+* [API Specifications](#API Specifications)
+* [요구사항 및 문제해결 전략](#요구사항및 문제해결 전략)
 
 ---
 
@@ -28,7 +28,8 @@
 
 ---
 
-## [테스트 페이지 주소](http://localhost:8090/home) http://localhost:8090/home
+## [테스트 페이지 주소](http://localhost:8090/home)
+>> http://localhost:8090/home
 
 ---
 ## API Specifications
@@ -54,7 +55,7 @@
 
 
 ---
-## 요구 사항 및 문제해결 전략
+## 요구사항 및 문제해결 전략
   * H2 데이터 베이스 사용하요 간단한 프로젝트를 위한 DB환경 구축 
   * 거래내역, 은행, 고객 csv 데이터 앱 기동과 동시에 create table / insert 완료 
   * 각 api 에 필요한 ENTITY 생성 
