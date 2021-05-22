@@ -62,7 +62,7 @@
   * Lombok 라이브러리를 이용해 별도로 getter, setter 작성 필요하지않아 개발 용이함
   * view 단에 버튼 만들어 api 눈에 보이게 명시함.
   * UNIT TEST 
-    BaseController 는 Junit Tewt 선택 
-    MainController 는 MockMvc Test 선택
+    * BaseController 는 Junit Tewt 선택 
+    * MainController 는 MockMvc Test 선택
 
 
