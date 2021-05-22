@@ -7,8 +7,8 @@
 
 * [프레임워크](#프레임워크)
 * [테스트페이지 주소](#테스트페이지주소)
-* [API Specifications](#API Specifications)
-* [요구 사항 및 문제해결 전략](#요구 사항 및 문제해결 전략)
+* [API Specifications](#APISpecifications)
+* [요구 사항 및 문제해결 전략](#요구사항및 문제해결 전략)
 
 ---
 
@@ -61,7 +61,7 @@
   * Lombok 라이브러리를 이용해 별도로 getter, setter 작성 필요하지않아 개발 용이함
   * view 단에 버튼 만들어 api 눈에 보이게 명시함.
   * UNIT TEST 
-   * BaseController 는 Junit Tewt 선택 
-   * MainController 는 MockMvc Test 선택
+   ** BaseController 는 Junit Tewt 선택 
+   ** MainController 는 MockMvc Test 선택
 
 
